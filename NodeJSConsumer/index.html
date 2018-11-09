@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+<head>
+    <title>WaspMote x,y,z Verileri</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!--compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Bootstrap cdn testi için gerekli -->
+    <div id="bootstrapCssTest" class="hidden"></div>
+
+    <link rel="stylesheet" type="text/css" hrf="./public/libs/jquery/dist/jquery.jqplot.min.css" />
+	
+    <link rel="stylesheet" type="text/css" hrf="./jquery-ui.css" />
+
+
+
+    <!-- 
+    <link rel="stylesheet" href="/public/libs/bootstrap/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="/public/libs/bootstrap/css/bootstrap-theme.min.css"> 
+	
+    <link href="/public/libs/font-awesome/css/font-awesome.min.css" rel="stylesheet"> 
+     -->
+	
+    <style>
+	.ui-helper-center {
+		text-align: center;
+	}	
+    </style>
+      
+</head>
+<body>
+
+<div class="well" >
+
+	<h3 ><a href="http://www.iotlab.sakarya.edu.tr" class="btn btn-success "><span class="glyphicon glyphicon-signal"></span> IoTRLab</a>
+		<strong >Internet of Things Research Laboratory</strong></a></h3>
+	<h4><strong>Data Visualization for IoT </strong></h4>
+
+</div>
+
+
+<div class="container">
+
+
+    <!-- Jquery burada ihtiyacım var cdn de inmezse yerelden çekicem-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" 
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script type="text/javascript">window.jQuery || document.write('<script src="/public/libs/jquery/jquery-3.2.1.min.js"><\/script>')</script>
+
+  
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function()
+    {
+
+	  var socket = io();   
+    
+
+            
+
+            socket.on('alldata', function(msg){
+               // alert(msg.value);
+                //var dataArray = getData(msg,"ACC").split(';');
+                //$('#messages').html($('<li>').text(dataArray[0]+':'+dataArray[1]+':'+dataArray[2]));
+                $('#messages').html($('<li>').text(JSON.stringify(msg)));
+                var x = (new Date()).getTime();
+
+
+                var arr = msg.value.split(',');
+				 $('#patientID').text(arr[1]);
+				 $('#age').text(arr[2]);
+				 $('#gender').text(arr[3]);
+				 $('#height').text(arr[4]);
+				 $('#weight').text(arr[5]);
+				 $('#QRS').text(arr[6]);
+				 $('#PR').text(arr[7]);
+
+				temp = parseInt(arr[0].trim()); drawGauge();
+
+
+
+                var yx = parseFloat(arr[0].trim());
+
+
+
+        });
+
+      });
+
+
+
+
+    </script>
+
+<!----------------Graph------------>
+<div class="row">
+<div class="col-md-12">
+<div class="panel panel-primary ">
+	<div class="panel-heading ">
+		<h3 class="panel-title">Real-Time Patient Monitoring </h3>
+	</div>
+	<div class="panel-body">
+		<div class="col-md-9 ">
+			<div class="panel panel-default" id="icerik">
+				<div class="panel-heading">Patient Information </div>
+				<div class="panel-body">
+					<table class="table table-sm table-dark">
+						<thead>
+						<tr>
+							<th scope="col">PatientID</th>
+							<th scope="col" id="patientID">First</th>
+
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<th scope="row">Age</th>
+							<th scope="col" id="age">First</th>
+
+						</tr>
+						<tr>
+							<th scope="row">Gender</th>
+							<th scope="col" id="gender">First</th>
+
+						</tr>
+
+						<tr>
+							<th scope="row">Height</th>
+							<th scope="col" id="height">First</th>
+
+						</tr>
+						<tr>
+							<th scope="row">Weight</th>
+							<th scope="col" id="weight">First</th>
+
+						</tr>
+						<tr>
+							<th scope="row">QRS</th>
+							<th scope="col" id="QRS">First</th>
+
+						</tr>	
+						<tr>
+							<th scope="row">PR</th>
+							<th scope="col" id="PR">First</th>
+
+						</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		 </div>
+		
+		<!--<div class="col-md-3">
+			<div class="panel panel-default" id="icerik">
+				<div class="panel-heading">Batarya Seviyesi
+				</div>
+				<div class="panel-body">
+					<div id="piechart" style="margin-top:55px; margin-bottom:55px; height:190px; " ></div>
+				</div>
+			</div>
+		</div>-->
+		<div class="col-md-3 ">
+			<div class="panel panel-default" >
+				<div class="panel-heading">
+				</div>
+				<div class="center-block">  
+				<div class=" panel-body">
+						<img src="public/Man.png">
+				</div>
+				</div>
+			</div>
+		 </div>
+		
+
+		
+	
+
+	</div>	
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Real-Time Patient Data</h3>
+	</div>
+	   <div class="panel-body">
+	<div id="messages" > Connecting...</div>
+	
+</div>
+</div>
+	</div>
+</div>
+
+
+
+</div>
+
+
+    
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+    <!-- Üsteki css cdn çöktüyse bootstrap burada ekliyorum.Sayfa max 1 sn geçikme ile responsive olacak. 
+        bu da cdn linklerini kontrol etmem gerektiğini anlamam için. Yani css burada kasıtlı olarak ekliyorum.  -->
+    <script type="text/javascript">
+        if ($('#bootstrapCssTest').is(':visible') === true) {
+            $('<link href="/public/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />').appendTo('head');
+            window.Bootstrap || document.write('<script src="/public/libs/bootstrap/js/bootstrap.min.js"><\/script>')
+        }
+    </script>;
+
+	<!--The same version as the socket-server-->
+	<script src="/socket.io-client/dist/socket.io.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.min.js"></script>
+    <!-- CDN alternatifi olarak -->
+    <script type="text/javascript">window.jQuery.jqplot || document.write('<script src="./public/libs/jquery/dist/jquery.jqplot.min.js"><\/script>')</script>
+    <!-- <script type="text/javascript" src="./public/libs/jquery/dist/jquery.jqplot.min.js"></script> -->
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasTextRenderer.min.js"></script>
+    <script type="text/javascript">window.jQuery.jqplot.CanvasGridRenderer || document.write('<script src="./public/libs/jquery/dist/plugins/jqplot.canvasTextRenderer.js"><\/script>')</script>
+    <!-- <script type="text/javascript" src="./public/libs/jquery/dist/plugins/jqplot.canvasTextRenderer.js"></script> -->
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+    <script type="text/javascript">window.jQuery.jqplot.CanvasAxisLabelRenderer || document.write('<script src="./public/libs/jquery/dist/plugins/jqplot.canvasAxisLabelRenderer.js"><\/script>')</script>
+    <!-- <script type="text/javascript" src="./public/libs/jquery/dist/plugins/jqplot.canvasAxisLabelRenderer.js"></script> -->
+ems are prese
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.dateAxisRenderer.min.js"></script>
+    <script type="text/javascript">window.jQuery.jqplot.DateAxisRenderer || document.write('<script src="./public/libs/jquery/dist/plugins/jqplot.dateAxisRenderer.js"><\/script>')</script>
+    <!-- <script type="text/javascript" src="./public/libs/jquery/dist/plugins/jqplot.dateAxisRenderer.js"></script> -->
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.logAxisRenderer.min.js"></script>
+    <script type="text/javascript">window.jQuery.jqplot.DateAxisRenderer || document.write('<script src="./public/libs/jquery/dist/plugins/jqplot.logAxisRenderer.js"><\/script>')</script>
+    <!-- <script type="text/javascript" src="./public/libs/jquery/dist/plugins/jqplot.logAxisRenderer.js"></script> -->
+    
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+    <script type="text/javascript">window.jQuery.jqplot.CanvasAxisTickRenderer || document.write('<script src="./public/libs/jquery/dist/plugins/jqplot.canvasAxisTickRenderer.js"><\/script>')</script>
+    <!-- <script type="text/javascript" src="./public/libs/jquery/dist/plugins/jqplot.canvasAxisTickRenderer.js"></script> -->
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.highlighter.min.js"></script>
+    <script type="text/javascript">window.jQuery.jqplot.highlighter || document.write('<script src="./public/libs/jquery/dist/plugins/jqplot.highlighter.js""><\/script>')</script>
+    <!-- <script type="text/javascript" src="./public/libs/jquery/dist/plugins/jqplot.highlighter.js"></script> -->
+
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.canvasOverlay.min.js"></script>
+</body>
+</html>
