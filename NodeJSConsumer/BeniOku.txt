@@ -1,9 +1,0 @@
-ionic kurulumu
-----------------
-
-
-uygulamanın çalıştırılması
-> sudo node Server.js
-
-JQPlot is employed for client-side graphs (graph on the left).
-GoogleChart can be used, as well.
